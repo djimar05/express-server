@@ -4,7 +4,6 @@ const handler = require('./handler')
 const app = express()
 const port = 3000
 
-let items = []
 
 app.use(express.json())
 
@@ -13,11 +12,11 @@ app.use(express.json())
 app.get('/', handler.mainHandler)
 
 app.get('/items', (req, res) => {
-  handler.getHandler(req, res, items);
+  handler.getHandler(req, res);
 });
 
 app.get('/items/:id', (req, res) => {
-  handler.getByIdHandler(req, res, items);
+  handler.getByIdHandler(req, res);
 });
 
 app.delete('/items/:id', (req, res) => {
@@ -26,18 +25,11 @@ app.delete('/items/:id', (req, res) => {
 
 
 app.post('/items', (req, res) => {
-  handler.postHandler(req, res, items);
+  handler.postHandler(req, res);
 });
 
 app.put('/items/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = items.findIndex(item => item.id === id);
-    if (index !== -1) {
-        items[index] = { ...items[index], ...req.body };
-        res.status(200).send(items[index]);
-    } else {
-        res.status(404).send({ message: 'Item not found' });
-    }
+    handler.putHandler(req, res);
 });
 
 //error handler

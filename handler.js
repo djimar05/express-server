@@ -1,43 +1,43 @@
 
 const blogs = {results : []}
 
-module.exports.getHandler = (req,res, items)=>{
-      res.status(200).json({items : items});
+module.exports.getHandler = (req,res)=>{
+      res.status(200).send(blogs);
 }
 
 module.exports.postHandler = (req,res,items)=>{
-      const item = req.body;
-      if (item) {
-            items.push(item);
-            res.status(201).json({message: 'Item added', item: item});
+      const blog = req.body;
+      if (blog) {
+            blogs.results.push(blog);
+            res.status(201).send({message: 'blog added', blog: blog});
       }else{
-            res.status(400).json({message: 'Item is required'});
+            res.status(400).send({message: 'blog is required'});
       }
  }
 
- module.exports.getByIdHandler = (req,res,items)=>{
-      listResult = items.filter(item => item.id === parseInt(req.params.id));
+ module.exports.getByIdHandler = (req,res)=>{
+      listResult = blogs.results.filter(blog => blog.id === parseInt(req.params.id));
       if(listResult.length === 0){
             return res.status(404).json({message : 'Item not found'});
       }
       res.status(200).json(listResult[0]);
  }
 
- module.exports.putHandler = (req,res,items)=>{
+ module.exports.putHandler = (req,res)=>{
       const id = parseInt(req.params.id);
-      const index = items.findIndex(item => item.id === id);
+      const index = blogs.results.findIndex(blog => blog.id === id);
       if (index !== -1) {
-            items[index] = { ...items[index], ...req.body };
-            res.status(200).send(items[index]);
+            blogs.results[index] = { ...blogs.results[index], ...req.body };
+            res.status(200).send(blogs.results[index]);
       } else {
             res.status(404).send({ message: 'Item not found' });
       }
  }
 
-module.exports.deleteHandler = (req,res,items)=>{
-    listResult = items.filter(item => item.id !== parseInt(req.params.id));
+module.exports.deleteHandler = (req,res)=>{
+    listResult = blogs.results.filter(blog => blog.id !== parseInt(req.params.id));
 
-    res.status(200).send(listResult);
+    res.status(203).send(listResult);
 }
 
 module.exports.errorHandler = (req,res)=>{
