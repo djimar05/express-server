@@ -2,6 +2,7 @@
 const blogs = {results : []}
 
 module.exports.getHandler = (req,res)=>{
+      //throw "Custom error message" -> pour tester Erreur 500
       res.status(200).send(blogs);
 }
 
@@ -37,6 +38,7 @@ module.exports.postHandler = (req,res,items)=>{
 module.exports.deleteHandler = (req,res)=>{
     listResult = blogs.results.filter(blog => blog.id !== parseInt(req.params.id));
 
+      // status de delete -> 203
     res.status(203).send(listResult);
 }
 

@@ -1,5 +1,6 @@
 const express = require('express')
 const handler = require('./handler')
+const middleware = require('./middleware')
 
 const app = express()
 const port = 3000
@@ -7,7 +8,7 @@ const port = 3000
 
 app.use(express.json())
 
-
+app.use(middleware.errorHandler)
 
 app.get('/', handler.mainHandler)
 
@@ -24,9 +25,13 @@ app.delete('/items/:id', (req, res) => {
 });
 
 
+/*
 app.post('/items', (req, res) => {
   handler.postHandler(req, res);
 });
+*/
+app.post('/items', middleware.dataValidation, handler.postHandler);
+
 
 app.put('/items/:id', (req, res) => {
     handler.putHandler(req, res);
